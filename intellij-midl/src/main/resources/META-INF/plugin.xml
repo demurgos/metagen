@@ -1,0 +1,23 @@
+<idea-plugin>
+  <id>net.demurgos.midl</id>
+  <name>MIDL</name>
+  <vendor email="demurgos@demurgos.net" url="https://demurgos.net">Demurgos</vendor>
+
+  <description><![CDATA[
+    MIDL File Format support.
+    ]]></description>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileTypeFactory implementation="net.demurgos.midl.lang.MidlFileTypeFactory"/>
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+  </actions>
+</idea-plugin>
