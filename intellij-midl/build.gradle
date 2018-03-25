@@ -52,24 +52,24 @@ patchPluginXml {
 
 idea {
   module {
-    generatedSourceDirs.add(file("src/gen"))
+    generatedSourceDirs.add(file("gen/main/java"))
   }
 }
 
 sourceSets {
-  main.java.srcDirs = ['src/gen']
+  main.java.srcDirs = ["gen/main/java"]
 }
 
 task generateMidlLexer(type: GenerateLexer) {
   source = "src/main/grammars/MidlLexer.flex"
-  targetDir = "src/gen/net/demurgos/midl/lang/lexer"
+  targetDir = "gen/main/java/net/demurgos/midl/lang/lexer"
   targetClass = "MidlLexer"
   purgeOldFiles = true
 }
 
 task generateMidlParser(type: GenerateParser) {
   source = "src/main/grammars/MidlParser.bnf"
-  targetRoot = "src/gen"
+  targetRoot = "gen/main/java"
   pathToParser = "/net/demurgos/midl/lang/parser/MidlParser.java"
   pathToPsiRoot = "/net/demurgos/midl/lang/psi"
   purgeOldFiles = true
