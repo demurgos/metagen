@@ -1,0 +1,26 @@
+type Point = {
+  x: Sint32;
+  y: Sint32;
+};
+
+type Parser = {
+  parse: (source: Bytes) -> Point;
+};
+
+type Shape(v2: Boolean) = {
+  if (v2) {
+    id: Uint32;
+  }
+  color: if (v2) { Rgba } else { Rgb };
+};
+
+type Lambda<R> {
+  @call: () -> R;
+};
+
+[tag=type]
+type Greeting = Hi | Hello;
+
+mod geom {
+  type Vec = Point;
+}

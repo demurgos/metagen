@@ -15,13 +15,43 @@
   elementTypeClass="net.demurgos.midl.lang.psi.MidlElementType"
   tokenTypeClass="net.demurgos.midl.lang.psi.MidlTokenType"
 
-  tokens=[
-    COMMENT="regexp:#.*"
+  tokens = [
+    LCURLY
+    RCURLY
+    LBRACK
+    RBRACK
+    LPAREN
+    RPAREN
+    COLON
+    SEMICOLON
+    EQ
 
-    BOOLEAN
+    COMMENT
+
+    BOOL_LITERAL
+    INT_LITERAL
+    STRING_LITERAL
+
+    TYPE_KW
+    IDENTIFIER
+    WHITE_SPACE
   ]
 }
 
-File ::= Literal*
+File ::= Item*
 
-Literal ::= BOOLEAN
+Item ::= TypeAssignment | Attribute | COMMENT | WHITE_SPACE
+
+TypeAssignment ::= TYPE_KW WHITE_SPACE IDENTIFIER WHITE_SPACE? EQ WHITE_SPACE? StructExpr
+
+StructExpr ::= LCURLY WHITE_SPACE? StructItem* WHITE_SPACE? RCURLY
+
+StructItem ::= IDENTIFIER WHITE_SPACE? COLON WHITE_SPACE? Expr WHITE_SPACE? SEMICOLON
+
+Expr ::= ParenExpr
+
+ParenExpr ::= LPAREN WHITE_SPACE? ExprLit WHITE_SPACE? RPAREN
+
+ExprLit ::= BOOL_LITERAL | INT_LITERAL | STRING_LITERAL
+
+Attribute ::= LBRACK IDENTIFIER RBRACK

@@ -8,7 +8,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
 import gnu.trove.THashMap
 import net.demurgos.midl.lang.lexer.MidlLexerAdapter
-import net.demurgos.midl.lang.psi.MidlTypes.BOOLEAN
+import net.demurgos.midl.lang.psi.MidlTypes.BOOL_LITERAL
 
 class MidlHighlighter : SyntaxHighlighterBase() {
 
@@ -19,6 +19,6 @@ class MidlHighlighter : SyntaxHighlighterBase() {
 
   private val tokenMap: Map<IElementType, TextAttributesKey> =
     THashMap<IElementType, TextAttributesKey>().apply {
-      put(BOOLEAN, createTextAttributesKey("MIDL_BOOLEAN", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL))
+      put(BOOL_LITERAL, createTextAttributesKey("MIDL_BOOLEAN", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL))
     }
 }
