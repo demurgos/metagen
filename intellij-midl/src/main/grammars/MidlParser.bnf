@@ -1,0 +1,27 @@
+{
+//  generate=[psi="no"]
+//  generatePsi=false // We employ hand-written Kotlin PSI
+  parserClass="net.demurgos.midl.lang.parser.MidlParser"
+//  parserUtilClass="org.toml.lang.parse.TomlParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Midl"
+  psiImplClassSuffix="Impl"
+  psiPackage="net.demurgos.midl.lang.psi"
+  psiImplPackage="net.demurgos.midl.lang.psi.impl"
+
+  elementTypeHolderClass="net.demurgos.midl.lang.psi.MidlTypes"
+  elementTypeClass="net.demurgos.midl.lang.psi.MidlElementType"
+  tokenTypeClass="net.demurgos.midl.lang.psi.MidlTokenType"
+
+  tokens=[
+    COMMENT="regexp:#.*"
+
+    BOOLEAN
+  ]
+}
+
+File ::= Literal*
+
+Literal ::= BOOLEAN
