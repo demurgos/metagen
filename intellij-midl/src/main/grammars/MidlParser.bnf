@@ -42,16 +42,32 @@ File ::= Item*
 
 Item ::= TypeAssignment | Attribute | COMMENT | WHITE_SPACE
 
-TypeAssignment ::= TYPE_KW WHITE_SPACE IDENTIFIER WHITE_SPACE? EQ WHITE_SPACE? StructExpr
+TypeAssignment ::= TYPE_KW WHITE_SPACE IDENTIFIER WHITE_SPACE? EQ WHITE_SPACE? Expr
 
-StructExpr ::= LCURLY WHITE_SPACE? StructItem* WHITE_SPACE? RCURLY
+//// to keep this sample short function calls and other expressions are omitted
+//{
+//  extends(".*expr")=expr
+//}
+// the root expression rule
+Expr ::= EqExprGroup
+  | OrExpr
+  | AndExpr
+  | NotExpr
+  | PrimaryExprGroup
 
+// private rules to define operators with the same priority
+private EqExprGroup ::= EqExpr | NotEqExpr
+private PrimaryExprGroup ::= StructExpr | LiteralExpr | ParenExpr
+
+//EqExpr ::= Expr EQEQ Expr { rightAssociative=true }
+EqExpr ::= Expr WHITE_SPACE? EQEQ WHITE_SPACE? Expr {extends=Expr}
+NotEqExpr ::= Expr WHITE_SPACE? EXCLEQ WHITE_SPACE? Expr {extends=Expr}
+OrExpr ::= Expr (WHITE_SPACE? OR WHITE_SPACE? Expr)+ {extends=Expr}
+AndExpr ::= Expr (WHITE_SPACE? AND WHITE_SPACE? Expr)+ {extends=Expr}
+NotExpr ::= EXCL WHITE_SPACE? Expr {extends=Expr}
+ParenExpr ::= LPAREN WHITE_SPACE? Expr WHITE_SPACE? RPAREN {extends=Expr}
+LiteralExpr ::= BOOL_LITERAL | INT_LITERAL | STRING_LITERAL {extends=Expr}
+
+StructExpr ::= STRUCT_KW WHITE_SPACE? LCURLY WHITE_SPACE? (StructItem WHITE_SPACE?)* RCURLY {extends=Expr}
 StructItem ::= IDENTIFIER WHITE_SPACE? COLON WHITE_SPACE? Expr WHITE_SPACE? SEMICOLON
-
-Expr ::= ParenExpr
-
-ParenExpr ::= LPAREN WHITE_SPACE? ExprLit WHITE_SPACE? RPAREN
-
-ExprLit ::= BOOL_LITERAL | INT_LITERAL | STRING_LITERAL
-
 Attribute ::= LBRACK IDENTIFIER RBRACK

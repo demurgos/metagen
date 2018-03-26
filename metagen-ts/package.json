@@ -1,0 +1,65 @@
+{
+  "name": "metagen",
+  "version": "0.1.0",
+  "description": "Metaprogramming framework for data types generation.",
+  "main": "dist/lib/index",
+  "types": "dist/lib/index.d.ts",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/demurgos/metagen.git"
+  },
+  "scripts": {
+    "prepare": "gulp all:tsconfig.json && gulp :tslint.json && gulp dist",
+    "pretest": "gulp :lint && gulp lib:build",
+    "test": "gulp test",
+    "prestart": "gulp main:build",
+    "start": "npm test",
+    "prepublishOnly": "npm test",
+    "lint": "gulp :lint:fix",
+    "typedoc": "gulp lib:typedoc"
+  },
+  "pre-commit": {
+    "run": [
+      "test"
+    ]
+  },
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "incident": "^3.1.1",
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.2",
+    "@types/minimist": "^1.2.0",
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^9.4.6",
+    "@types/qs": "^6.5.1",
+    "chai": "^4.1.2",
+    "codecov": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-cli": "^2.0.1",
+    "minimist": "^1.2.0",
+    "pre-commit": "^1.2.2",
+    "qs": "^6.5.1",
+    "ts-node": "^5.0.0",
+    "turbo-gulp": "^0.16.2"
+  },
+  "nyc": {
+    "include": [
+      "build/test/lib/**/*.js",
+      "build/test/lib/**/*.mjs"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "extension": [
+      ".mjs"
+    ]
+  },
+  "@std/esm": {
+    "esm": "cjs"
+  }
+}

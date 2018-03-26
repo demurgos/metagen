@@ -64,7 +64,13 @@ COMMENT = "#"
   ":" { return COLON; }
   ";" { return SEMICOLON; }
   "=" { return EQ; }
+  "!=" { return EXCLEQ; }
+  "==" { return EQEQ; }
+  "!" { return EXCL; }
+  "|" { return OR; }
+  "&" { return AND; }
 
+  "struct" { return STRUCT_KW; }
   "type" { return TYPE_KW; }
 
   {IDENTIFIER} { return IDENTIFIER; }

@@ -1,3 +1,3 @@
 # Metagen
 
-Schemas, Interface Definitions and Code Generation framework.
+Metaprogramming framework for data types generation.

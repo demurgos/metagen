@@ -1,6 +1,10 @@
-type Point = {
+type Point = struct {
   x: Sint32;
   y: Sint32;
+};
+
+type Point3D = Point & struct {
+  z: Sint32;
 };
 
 type Parser = {

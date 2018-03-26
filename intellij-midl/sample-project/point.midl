@@ -1,3 +1,4 @@
-type A = {
-  b: (true);
+type Point = struct {
+  x: !true;
+  y: true & false;
 }
