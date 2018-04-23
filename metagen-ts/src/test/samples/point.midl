@@ -1,0 +1,7 @@
+/**
+ * Describes a 2D point.
+ */
+struct Point {
+  x: sint32;
+  y: sint32;
+}

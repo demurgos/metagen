@@ -25,6 +25,7 @@ apply plugin: 'org.jetbrains.grammarkit'
 
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
+import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 
 repositories {
   mavenCentral()
@@ -41,8 +42,14 @@ compileTestKotlin {
   kotlinOptions.jvmTarget = "1.8"
 }
 intellij {
-  version '2017.3.5'
+  version "2017.3.5"
+
+  tasks.withType(PatchPluginXmlTask) {
+    sinceBuild = "173"
+    untilBuild = "181.*"
+  }
 }
+
 patchPluginXml {
   changeNotes """
       1.0.0: First release<br>

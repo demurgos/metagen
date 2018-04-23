@@ -1,4 +1,5 @@
-type Point = struct {
-  x: !true;
-  y: true & false;
+/* */
+struct Point {
+  x: true;
+  y: true;
 }

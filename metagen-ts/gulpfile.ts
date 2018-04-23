@@ -22,6 +22,11 @@ const project: buildTools.Project = {
     configuration: {
       rules: {
         "no-submodule-imports": false,
+        "typedef": [
+          true,
+          "property-declaration",
+          "member-variable-declaration",
+        ],
       },
     },
   },
@@ -54,11 +59,6 @@ const lib: buildTools.LibTarget = {
       branch: "gh-pages",
     },
   },
-  copy: [
-    {
-      files: ["**/*.json"],
-    },
-  ],
   clean: {
     dirs: ["build/lib", "dist/lib"],
   },
@@ -75,8 +75,8 @@ const test: buildTools.MochaTarget = {
   },
   copy: [
     {
-      src: "../../test",
-      files: ["parsers/**/*.json"],
+      src: "test",
+      files: ["samples/**/*.midl"],
       dest: "test",
     },
   ],

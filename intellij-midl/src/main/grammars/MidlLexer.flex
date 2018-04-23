@@ -17,10 +17,17 @@ import static net.demurgos.midl.lang.psi.MidlTypes.*;
 // Whitespaces
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-EOL_WS = \n | \r | \r\n
-LINE_WS = [\ \t]
-WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
+LINE_FEED = \n
+WHITE_SPACE_CHAR = {LINE_FEED} | [\ \t]
 WHITE_SPACE = {WHITE_SPACE_CHAR}+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Comments
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+BLOCK_DOC = "/**" [\S\s]* "*/"
+LINE_COMMENT = "#" [^\n]* \n
+BLOCK_COMMENT = "/*" [\S\s]* "*/"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Identifier
@@ -47,10 +54,13 @@ STRING_LITERAL = \" ( [^\\\"] | \\[^] )* ( \" | \\ )?
 
 BOOL_LITERAL = true | false
 
-COMMENT = "#"
-
 %%
 <YYINITIAL> {
+  {WHITE_SPACE} { return WHITE_SPACE; }
+  {BLOCK_DOC} { return BLOCK_DOC; }
+  {LINE_COMMENT} { return LINE_COMMENT; }
+  {BLOCK_COMMENT} { return BLOCK_COMMENT; }
+
   {INT_LITERAL} { return INT_LITERAL; }
   {BOOL_LITERAL} { return BOOL_LITERAL; }
   {STRING_LITERAL} { return STRING_LITERAL; }
@@ -64,18 +74,16 @@ COMMENT = "#"
   ":" { return COLON; }
   ";" { return SEMICOLON; }
   "=" { return EQ; }
-  "!=" { return EXCLEQ; }
-  "==" { return EQEQ; }
-  "!" { return EXCL; }
-  "|" { return OR; }
-  "&" { return AND; }
+//  "!=" { return EXCLEQ; }
+//  "==" { return EQEQ; }
+//  "!" { return EXCL; }
+//  "|" { return OR; }
+//  "&" { return AND; }
 
   "struct" { return STRUCT_KW; }
   "type" { return TYPE_KW; }
 
   {IDENTIFIER} { return IDENTIFIER; }
-
-  {WHITE_SPACE} { return WHITE_SPACE; }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

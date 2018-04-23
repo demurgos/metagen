@@ -25,8 +25,11 @@
     COLON
     SEMICOLON
     EQ
+    EXCL
 
-    COMMENT
+    BLOCK_COMMENT
+    LINE_COMMENT
+    BLOCK_DOC
 
     BOOL_LITERAL
     INT_LITERAL
@@ -38,36 +41,34 @@
   ]
 }
 
-File ::= Item*
+File ::= SimpleTrivia* (ModItemList SimpleTrivia*)?
 
-Item ::= TypeAssignment | Attribute | COMMENT | WHITE_SPACE
+private ModItemList ::= ModItem (SimpleTrivia* ModItem)*
+ModItem ::= AttributeItem | DocItem  | EnumDeclaration | StructDeclaration | SumDeclaration
 
-TypeAssignment ::= TYPE_KW WHITE_SPACE IDENTIFIER WHITE_SPACE? EQ WHITE_SPACE? Expr
+DocItem ::= Doc
+AttributeItem ::= Attribute
+StructDeclaration ::= STRUCT_KW Trivia+ IDENTIFIER Trivia* StructBody {pin = 1}
+EnumDeclaration ::= ENUM_KW Trivia+ IDENTIFIER Trivia* LCURLY Trivia* RCURLY {pin = 1}
+SumDeclaration ::= SUM_KW Trivia+ IDENTIFIER Trivia* LCURLY Trivia* RCURLY {pin = 1}
+TypeDeclaration ::= TYPE_KW Trivia* EQ Trivia* TypeExpr Trivia* SEMICOLON
 
-//// to keep this sample short function calls and other expressions are omitted
-//{
-//  extends(".*expr")=expr
-//}
-// the root expression rule
-Expr ::= EqExprGroup
-  | OrExpr
-  | AndExpr
-  | NotExpr
-  | PrimaryExprGroup
+StructBody ::= LCURLY SimpleTrivia* (StructItemList SimpleTrivia*)? RCURLY
+StructItemList ::= StructItem (SimpleTrivia* StructItem)*
+StructItem ::= AttributeStructItem | DocStructItem | SimpleStructItem
+AttributeStructItem ::= Attribute
+DocStructItem ::= Doc
+SimpleStructItem ::= IDENTIFIER Trivia* COLON Trivia* TypeExpr Trivia* SEMICOLON
 
-// private rules to define operators with the same priority
-private EqExprGroup ::= EqExpr | NotEqExpr
-private PrimaryExprGroup ::= StructExpr | LiteralExpr | ParenExpr
+TypeExpr ::= PrimaryTypeExprGroup
 
-//EqExpr ::= Expr EQEQ Expr { rightAssociative=true }
-EqExpr ::= Expr WHITE_SPACE? EQEQ WHITE_SPACE? Expr {extends=Expr}
-NotEqExpr ::= Expr WHITE_SPACE? EXCLEQ WHITE_SPACE? Expr {extends=Expr}
-OrExpr ::= Expr (WHITE_SPACE? OR WHITE_SPACE? Expr)+ {extends=Expr}
-AndExpr ::= Expr (WHITE_SPACE? AND WHITE_SPACE? Expr)+ {extends=Expr}
-NotExpr ::= EXCL WHITE_SPACE? Expr {extends=Expr}
-ParenExpr ::= LPAREN WHITE_SPACE? Expr WHITE_SPACE? RPAREN {extends=Expr}
-LiteralExpr ::= BOOL_LITERAL | INT_LITERAL | STRING_LITERAL {extends=Expr}
+private PrimaryTypeExprGroup ::= IdentifierTypeExpr | LiteralTypeExpr | ParenTypeExpr
+ParenTypeExpr ::= LPAREN Trivia* TypeExpr Trivia* RPAREN {extends=TypeExpr}
+LiteralTypeExpr ::= INT_LITERAL | BOOL_LITERAL | STRING_LITERAL {extends=TypeExpr}
+IdentifierTypeExpr ::= IDENTIFIER {extends=TypeExpr}
 
-StructExpr ::= STRUCT_KW WHITE_SPACE? LCURLY WHITE_SPACE? (StructItem WHITE_SPACE?)* RCURLY {extends=Expr}
-StructItem ::= IDENTIFIER WHITE_SPACE? COLON WHITE_SPACE? Expr WHITE_SPACE? SEMICOLON
-Attribute ::= LBRACK IDENTIFIER RBRACK
+Comment ::= BLOCK_COMMENT | LINE_COMMENT
+SimpleTrivia ::= Comment | WHITE_SPACE
+Doc ::= BLOCK_DOC
+Trivia ::= SimpleTrivia | Doc
+Attribute ::= LBRACK Trivia? IDENTIFIER Trivia? RBRACK

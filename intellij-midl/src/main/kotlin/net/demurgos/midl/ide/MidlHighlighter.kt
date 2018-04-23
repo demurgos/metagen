@@ -19,6 +19,10 @@ class MidlHighlighter : SyntaxHighlighterBase() {
 
   private val tokenMap: Map<IElementType, TextAttributesKey> =
     THashMap<IElementType, TextAttributesKey>().apply {
+      put(BLOCK_DOC, createTextAttributesKey("MIDL_BLOCK_DOC", DefaultLanguageHighlighterColors.DOC_COMMENT))
+      put(LINE_COMMENT, createTextAttributesKey("MIDL_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT))
+      put(BLOCK_COMMENT, createTextAttributesKey("MIDL_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT))
+
       put(IDENTIFIER, createTextAttributesKey("MIDL_IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER))
       put(BOOL_LITERAL, createTextAttributesKey("MIDL_BOOLEAN", DefaultLanguageHighlighterColors.KEYWORD))
       put(STRUCT_KW, createTextAttributesKey("MIDL_STRUCT_KW", DefaultLanguageHighlighterColors.KEYWORD))
